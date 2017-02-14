@@ -1,0 +1,6 @@
+FROM golang:1.6.4-nanoserver
+
+COPY bin/registrator.exe c:/registrator.exe
+
+WORKDIR C:/
+ENTRYPOINT ["c:/registrator.exe"]
