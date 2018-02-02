@@ -1,4 +1,4 @@
-FROM golang:1.6.4-windowsservercore
+FROM golang:1.8-windowsservercore
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
@@ -6,12 +6,10 @@ COPY . /work/go/src/github.com/gliderlabs/registrator
 
 RUN $env:GOPATH='c:\work\go'; \
 	cd c:/work/go/src/github.com/gliderlabs/registrator; \
-	git --version --build-options; \
-	go get; go get; go get; \
-	go build -ldflags '-X main.Version=v7' -o c:/registrator.exe; \
+	go get; rm ..\..\coreos\go-etcd\etcd\response.generated.go; go get; go get; \
+        go build -ldflags '-X main.Version=v7' -o c:/registrator.exe; \
 	cd c:/; \
 	rm /work -Force -Recurse; \
 	& C:/registrator.exe --version;
-	
-WORKDIR C:/
 
+WORKDIR C:/
